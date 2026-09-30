@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>TV Shows</title>
+  </head>
+  <body>
+    <h1>NEXTFIX</h1>
+
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="container">
+      <form action="/register" method="POST">
+        {% csrf_token %}
+        <h2>Register</h2>
+        <p>
+          <label>First Name:</label> <input type="text" name="first_name" />
+        </p>
+        <p><label>Last Name:</label> <input type="text" name="last_name" /></p>
+        <p><label>Email:</label> <input type="email" name="email" /></p>
+        <p>
+          <label>Password:</label> <input type="password" name="password" />
+        </p>
+        <p>
+          <label>Confirm Password:</label>
+          <input type="password" name="confirm_pw" />
+        </p>
+        <button type="submit">Submit</button>
+      </form>
+
+      <form action="/login" method="POST">
+        {% csrf_token %}
+        <h2>Login</h2>
+        <p><label>Email:</label> <input type="email" name="email" /></p>
+        <p>
+          <label>Password:</label> <input type="password" name="password" />
+        </p>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

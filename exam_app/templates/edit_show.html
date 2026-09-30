@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>Edit Show</title>
+  </head>
+  <body>
+    <h2>Edit Show</h2>
+    <a href="/shows">TV Shows</a>
+    <a href="/logout">Logout</a>
+
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form action="/edit/{{ show.id }}" method="POST">
+      {% csrf_token %}
+      <p>
+        <label>Title</label>
+        <input type="text" name="title" value="{{ show.title }}" />
+      </p>
+      <div class="form-row">
+        <p class="form-group-flex">
+          <label>Network</label>
+          <input type="text" name="network" value="{{ show.network }}" />
+        </p>
+        <p class="form-group-flex">
+          <label>Release Date</label>
+          <input
+            type="date"
+            name="release_date"
+            value="{{ show.release_date|date:'Y-m-d' }}"
+          />
+        </p>
+      </div>
+      <p>
+        <label>comments</label>
+        <textarea name="comments">{{ show.comments.text }}</textarea>
+      </p>
+      <button type="submit">Update</button>
+    </form>
+  </body>
+</html>

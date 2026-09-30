@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>View show</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-flex">
+        <h1>TV Show {{ show.title }}</h1>
+        <a href="/shows">TV Shows</a>
+        <a href="/logout">Logout</a>
+      </div>
+      <h2>Title: {{ show.title }}</h2>
+      <p><strong>Network:</strong> {{ show.network }}</p>
+      <p>
+        <strong>Release Date:</strong> {{ show.release_date|date:"F d, Y" }}
+      </p>
+      <br />
+      <p><em>Last Updated: {{ show.updated_at|date:"F d, Y h:i A" }}</em></p>
+      <br />
+      <p><strong>Comments:</strong> {{ show.comments.text }}</p>
+      <hr />
+
+
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <div>
+      <form action="/add/comment/{{ show.id }}" method="POST">
+      {% csrf_token %}
+        <label>Post a Commint</label>
+        <textarea name="comments"></textarea>
+      
+      <button type="submit">post</button>
+      </form>
+    </div>
+
+    {% for comment in all_comments reversed %}
+     <strong>{{ comment.user.first_name }}</strong> at {{ comment.created_at|date:"F d, Y"  }}
+      <p>{{ comment.test }}</p>
+      {% if comment.user.id == logged_user.id %}
+        <form action="/delete/comment/{{ comment.id }}/{{ show.id }}" method="POST">
+        {% csrf_token %}
+        <button type="submit">delete</button>
+        </form>
+      {% endif %}
+    {% endfor %}
+
+
+
+  </body>
+</html>
